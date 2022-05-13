@@ -1,7 +1,7 @@
 
 import { clienteService } from "../service/cliente-service.js";
 
-const criaNovaLinha = (nome, email) => {
+const criaNovaLinha = (nome, email, id) => {
     const linhaNovoCliente = document.createElement('tr');
 
     const conteudo = `
@@ -16,6 +16,7 @@ const criaNovaLinha = (nome, email) => {
             `;
 
     linhaNovoCliente.innerHTML = conteudo;
+    linhaNovoCliente.dataset.id = id;
 
     return linhaNovoCliente;
 }
@@ -24,11 +25,24 @@ const criaNovaLinha = (nome, email) => {
 
 const tabela = document.querySelector('[data-tabela]');
 
+tabela.addEventListener('click', (evento) => {
+    let ehBotaoDeletar = evento.target.className === 'botao-simples botao-simples--excluir';
+
+    if (ehBotaoDeletar) {
+        const linhaCliente = evento.target.closest('[data-id]')
+        let id = linhaCliente.dataset.id;
+        clienteService.removeCliente(id)
+        .then( () =>{
+            linhaCliente.remove;
+        })
+    }
+})
+
 // ---
 
 clienteService.carregaListaDeClientes()
     .then(data => {
         data.forEach(elemento => {
-            tabela.appendChild(criaNovaLinha(elemento.nome, elemento.email));
+            tabela.appendChild(criaNovaLinha(elemento.nome, elemento.email, elemento.id));
         });
     });
