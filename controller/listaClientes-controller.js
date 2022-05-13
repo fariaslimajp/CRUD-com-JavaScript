@@ -8,11 +8,11 @@ const criaNovaLinha = (nome, email, id) => {
     <td class="td" data-td>${nome}</td>
     <td>${email}</td>
     <td>
-            <ul class="tabela__botoes-controle">
-            <li><a href="../telas/edita_cliente.html" class="botao-simples botao-simples--editar">Editar</a></li>
+        <ul class="tabela__botoes-controle">
+            <li><a href="../telas/edita_cliente.html?id=${id}" class="botao-simples botao-simples--editar">Editar</a></li>
             <li><button class="botao-simples botao-simples--excluir" type="button">Excluir</button></li>
-            </ul>
-            </td>
+        </ul>
+    </td>
             `;
 
     linhaNovoCliente.innerHTML = conteudo;
@@ -32,9 +32,9 @@ tabela.addEventListener('click', (evento) => {
         const linhaCliente = evento.target.closest('[data-id]')
         let id = linhaCliente.dataset.id;
         clienteService.removeCliente(id)
-        .then( () =>{
-            linhaCliente.remove;
-        })
+            .then(() => {
+                linhaCliente.remove;
+            })
     }
 })
 
